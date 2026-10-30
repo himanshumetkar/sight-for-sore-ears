@@ -1,0 +1,47 @@
+:root
+{
+--bg-color: #0b0f19;
+--a: #00ffcc;
+--b: #f7fbff;
+--c: #ff007f;
+--pulse: 0;
+}
+*{
+    box-sizing: border-box; margin: 0;
+}
+html, body{
+    height: 100%; background: var(--bg-color); color:#d8e6f2;overflow: hidden; 
+    font-family: 'Courier New', Courier, monospace; font-size: 1.2rem; line-height: 1.5rem;
+}
+#stage { position: fixed; inset:0; width: 100%; height:100%; display:block;}
+#banner
+{
+    position: fixed; top:0; left:0; right:0; z-index: 2;
+    display: flex; flex-wrap: wrap; align-items: center; gap:0.6rem 1.5rem;
+    padding: 0.8rem 1.4rem;
+    background: rgba(31, 76, 190, 0.72);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--a);
+    box-shadow: 0 0 calc(6px + var(--pulse)*34px) var(--a);
+    transition: opacity 0.3s;
+}
+body.hidden #banner, body.hidden #keys { opacity: 0; pointer-events: none; }
+h1
+{
+    font-size: 1.4rem; font-weight: 700; letter-spacing: 0.18em;
+    background: linear-gradient(90deg, var(--a),var(--b),var(--c));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.controls
+{
+    display: flex; flex-wrap: wrap; align-items:center; gap: 0.8rem 1.2rem;
+}
+label
+{
+    display: flex; align-items: center; gap: 0.5rem; font-size:0.85rem; color: #8fa3b8
+}
+button, select
+{
+    font: inherit; color: #d8e6f2; background:#111827;
+    border: 1px solid var(--b); border-radius: 4px; padding:0.4rem 0.7rem; 
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale=1">
+        <title>Sight for Sore Ears</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href ="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>  
+        <header id="banner">
+            <h1>Sight for Sore Ears</h1>
+            <div class = 'controls'>   
+                <button id="startBtn">Capture audio</button>
+                <label>Mode
+                    <select id="modelSel">
+                        <option value="bars">Spectrum Bars</option>
+                        <option value="radial">Radial</option>
+                        <option value="scope">Scope</option>    
+                        <option value="city">Neon City</option>    
+                    </select>
+                </label>
+                <label>Theme
+                    <select id="themeSel">
+                        <option value="neon">Neon</option>
+                        <option value="synthwave">Synthwave</option>
+                        <option value="matrix">Matrix</option>
+                        <option value="ember">Ember</option>
+                    </select>
+                </label>
+                <label>Smoothing
+                    <input id="smooth" type="range" min="0" max="0.95" step="0.05" value="0.8">
+                </label>
+            </div>
+            <p id ="status">Pick a tab or screen and click on share audio. For best results use chrome or edge</p>
+        </header>
+        <canvas id="canvas"></canvas>
+        <p id="Keys">1-4 Mode | T theme | F fullscreen | Hide UI</p>
+    </body>
+</html>
