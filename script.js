@@ -244,12 +244,12 @@ function radial(t) {
 function city()
 {
   const c =THEMES[theme], bw = W/N, maxH=H*0.62;
-  const g = ctx.createRadialGradient(W*0.5, H*0.35, 0, W*0.35, H*(0.14 + bass * 0.1));
+  const g = ctx.createRadialGradient(W*0.5, H*0.35, 0, W*0.35, H*(0.14 + bass * 0.1), Math.max(W,H)*0.45);
   g.addColorStop(0,c.c); g.addColorStop(1, 'transparent');
   ctx.globalAlpha = 0.5; ctx.fillStyle = g; ctx.fillRect(0,0,W,H); ctx.globalAlpha = 1;
   for (let i = 0; i<N; i++)
   {
-    const h = 30+lv[i]*maxH, x = i*bw, y= H-H;
+    const h = 30+lv[i]*maxH, x = i*bw, y= H-h;
     ctx.fillStyle = 'rgb(8,11,20)'; ctx.fillRect(x,y,bw-1,h);
     ctx.fillStyle = i%2?c.a:c.b;
     for(let wy = y+8, row = 0; wy<H-6; wy+=12, row++)
@@ -259,13 +259,34 @@ function city()
     ctx.fillStyle = c.a; ctx.fillRect(x,y,bw-1,2);
   }
 }
+function scope()
+{
+  const c = THEMES[theme];
+  ctx.lineCap = 'round';
+  ctx.lineWidth = Math.max(2, W*0.0015);
+  ctx.strokeStyle = c.a;
+  ctx.shadowBlur = 14;
+  ctx.shadowColor = c.a;
+  ctx.beginPath();
+  const slice = wave.length/W;
+  for (let x=0; x<W;x++)
+  {
+    const i = Math.floor(x*slice);
+    const v = (wave[i]-128)/128;
+    const y =H/2 + v*H*0.35*(1+bass*0.6);
+    if(x===0)ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.shadowBlur=0;
+}
 const Draw = {bars, radial, scope, city};
 
 function glitchSlices()
 {
   for(let k = 0; k<4; k++)
   {
-    const sy = Math.random()*H, sh = 8+Math.random()*40, dx = (Math.random()-0.5*70*glitch);
+    const sy = Math.random()*H, sh = 8+Math.random()*40, dx = (Math.random()-0.5)*70*glitch;
     ctx.drawImage(cv,0,sy*dpr,W*dpr,sh*dpr,dx,sy,W,sh)
   }
   glitch *= 0.85; if(glitch<0.05) glitch = 0;
@@ -274,26 +295,26 @@ function glitchSlices()
 function frame(t)
 {
   analyse(t);
-  ctx.fillStyle = 'rgba(${BG},0.24)'
+  ctx.fillStyle = `rgba(${BG},0.24)`
   ctx.fillRect(0,0,W,H);
   ctx.save();
   if(shake >0.02) ctx.translate((Math.random()-0.5)*shake * 14, (Math.random()-0.5)*shake*14);
   shake*= 0.85;
-  DRAW[mode](t);
+  Draw[mode](t);
   ctx.restore();
   if(glitch) glitchSlices();
-  requiestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 }
 
 startBtn.addEventListener('click',()=> (running?stop():start()));
 modeSel.addEventListener('change',()=>applyMode(modeSel.value));
 themeSel.addEventListener('change',()=>applyTheme(themeSel.value));
-smoothEl,addEventListener('input', ()=>{if(analyser) analyser.smoothingTimeConstant=parseFloat(smoothEl.value);});
+smoothEl.addEventListener('input', ()=>{if(analyser) analyser.smoothingTimeConstant=parseFloat(smoothEl.value);});
 addEventListener('keydown',(e)=>{
   if(e.target.tagName==='SELECT') return;
  const k =e.key.toLowerCase();
- if(l>='1' && k<='4') applyMode(MODES[k-1]);
- else if (k==='t') {const n = Object.keys(THEMES); applyTheme(n[(N.indexOf(theme)+1)%N.length]); }
+ if(k>='1' && k<='4') applyMode(MODES[k-1]);
+ else if (k==='t') {const n = Object.keys(THEMES); applyTheme(n[(n.indexOf(theme)+1)%n.length]); }
  else if(k==='f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
  else if(k==='h') document.body.classList.toggle('hidden');
 });

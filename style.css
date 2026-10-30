@@ -45,3 +45,14 @@ button, select
     font: inherit; color: #d8e6f2; background:#111827;
     border: 1px solid var(--b); border-radius: 4px; padding:0.4rem 0.7rem; 
 }
+button.live
+{
+    background: var(--a); color: #0b0f19; border-color: var(--a);
+    box-shadow: 0 0 10px var(--a);
+}
+#keys
+{
+    position:fixed; left: 1rem; bottom:0.8rem;z-index:2;
+    font-size: 0.75rem; color: #8fa3b8; opacity: 0.75;
+    transition: opacity 0.3s;
+}
